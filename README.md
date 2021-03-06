@@ -1,15 +1,15 @@
 ## XBee3 Laundry Monitor
 ### Micropython code running on an XBee3 ZigBee RF module to read ADC values from CT sensors on washer and dryer A/C circuits.
 
-In order to monitor the state of my home's laundry and be notified when the washer and dryer laods are complete, I use a current transformer (CT) sensor to detect each appliance's power state (i.e. whether CT voltage detected via ADC pins).
+In order to monitor the state of my home's laundry and receive notifications when the washer and dryer loads are complete, I use a current transformer (CT) sensor to detect each appliance power state (i.e. whether CT voltage is detected via ADC pins).
 
-This requires turning off your home's main power, removing the circuit breaker panel cover, and clipping the CT sensors to each laundry circuit (I'm in the US and used the black hot wires). Removing your panel is obviously dangerous and if you're not careful your family could find you a smoking heap on the ground. So be careful.
+This requires turning off your home's main power, removing the circuit breaker panel cover, and clipping the CT sensors to each laundry circuit. I'm in the US and use the hot wire (black) on each circuit. Removing your panel is obviously dangerous and if you're not careful your family could find you a smoking heap on the ground. So be careful.
 
-The circuit to detect the power state uses a **SCT-013-030 30A Non-invasive AC Current Sensor Split-Core Current Transformer**, a bearing resistor, and a capacitor. The 12 bit XBee3 ADC reads the voltage across the resistor.
+The circuit to detect the power state each uses a **SCT-013-030 30A Non-invasive AC Current Sensor Split-Core Current Transformer**, a bearing resistor, and an electrolytic capacitor. The 12 bit XBee3 ADC reads the voltage across the resistor.
 
-The XBee3 sends the ADC readings to the ZigBee coordinator. I use custom coordinator code based on [aioxbee](https://github.com/idatum/aioxbee). The coordinator code publishes each ADC reading to an MQTT broker. The state of the washer and dryer are also published. The state is based on a moving window of ADC values crossing a threshold. In my case the moving window is the sum of the last 10 ADC readings and the threshold "on" state is a value of 1000.
+The XBee3 sends the ADC readings to the ZigBee coordinator. I wrote custom coordinator code based on [aioxbee](https://github.com/idatum/aioxbee). The coordinator code publishes each ADC reading to an MQTT broker. The state of the washer and dryer are also published. The state is based on a moving window of ADC values crossing a threshold. In my case the moving window is the sum of the last 10 ADC readings and the threshold "on" state is a value of 1000.
 
-I use [Home Assistant](https://github.com/home-assistant) (HA) to integrate each state as a binary_sensor. HA gives me a convenient UX to read and control the binary sensors. I use HA automation as a simple way to be notified when the laundry is done (e.g. Twilio integration).
+I use [Home Assistant](https://github.com/home-assistant) (HA) to integrate each state as a binary_sensor. HA gives me a convenient UX to read and control the binary sensors. I use HA automation for notifications on the state of the laundry (e.g. Twilio integration).
 
 ### Schematic
 ![XBee3 laundry schematic](assets/images/xbee3_laundry_schematic.png)
