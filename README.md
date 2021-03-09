@@ -13,6 +13,8 @@ The circuit to detect the power state uses a **SCT-013-030 30A Non-invasive AC C
 ### Custom code ###
 The XBee3 sends the ADC readings to the ZigBee coordinator of the mesh network about every 10 seconds. I use custom coordinator code based on [aioxbee](https://github.com/idatum/aioxbee). The coordinator code publishes both ADC readings in the payload of a single topic sent to an MQTT broker. Each state for the washer and dryer are published as a seperate topic when a state changes between on or off.
 
+Check out the [xbee3-laundry aioxbee-laundry example](https://github.com/idatum/xbee3-laundry/tree/main/examples/aioxbee-laundry) for a blueprint on how to create a customer coordinator based on [aioxbee](https://github.com/idatum/aioxbee).
+
 The state of the washer and dryer is based on a moving window of ADC values crossing a threshold. In my case the moving window is the average of the last 20 ADC readings and the threshold "on" state is a value of 20.
 
 I do pre-aggregation of ADC samples on the XBee3 before transmitting. A remotely configurable global variable `Sum_count` defaults to 5. The idea is to 1) collect a reasonable signal before sending, 2) minimize the frequency of ZigBee packets and corresponding MQTT messages.
