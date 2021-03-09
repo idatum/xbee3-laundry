@@ -40,15 +40,16 @@ The threshold values are a tradeoff of avoiding false positives if too low and l
 Notice that over the 60 seconds or so AVG and P90 cross their threshold at different times.
 
 Here's part of a spreadsheet after the laundry was physically transferred from the washer (now done) to the dryer and the dryer is started:
-| Secs | W | D | AVG(W)  | AVG(D) | AVG(W) > 20 | AVG(D) > 20 |  |  | P90(W)  | P90(D) | P90(W) > 70 | P90(D) > 70 |
-|------|---|---|---------|--------|-------------|-------------|--|--|---------|--------|-------------|-------------|
-| 100 | 194 | 5 | 1615 | 115   | TRUE  | FALSE |  |  | 79.3   | 4.85  | TRUE  | FALSE |  |  |  | 426.2 | 13.4   | TRUE  | FALSE |
-| 110 | 490 | 0 | 1429 | 1564  | TRUE  | **TRUE**  | | | 69.6   | 4.7   | TRUE  | FALSE |  |  |  | 424.3 | 13.4   | TRUE  | FALSE |
-| 120 | 118 | 2 | 954  | 3977  | TRUE  | TRUE  |  |  | 46.1   | 4.9   | TRUE  | FALSE |  |  |  | 169.3 | 13.4   | TRUE  | FALSE |
-| 130 | 175 | 4 | 841  | 6385  | TRUE  | TRUE  |  |  | 40.3   | 4.8   | TRUE  | FALSE |  |  |  | 160.1 | 13.4   | TRUE  | FALSE |
-| 140 | 452 | 6 | 674  | 8791  | TRUE  | TRUE  |  |  | 31.9   | 5.2   | TRUE  | FALSE |  |  |  | 25.4  | 13.8   | **FALSE** | FALSE |
-| 150 | 6   | 7 | 233  | 11210 | **FALSE** | TRUE  |  |  | 9.7    | 77.6  | **FALSE** | **TRUE**  |  |  |  | 19.9  | 17.6   | FALSE | FALSE |
-| 160 | 13  | 2 | 239  | 13316 | FALSE | TRUE  |  |  | 10.15  | 197.9 | FALSE | TRUE  |  |  |  | 19.9  | 1310.4 | FALSE | **TRUE**  |
+| Secs | W | D | AVG(W) | AVG(D) | AVG(W) > 20 | AVG(D) > 20 |  |  | P90(W)  | P90(D) | P90(D) > 70 | P90(D) > 70 |
+|------|---|---|--------|--------|-------------|-------------|--|--|---------|--------|-------------|-------------|
+| 100 | 194 | 5 | 79.3   | 4.85  | TRUE  | FALSE |  |  | 426.2 | 13.4   | TRUE  | FALSE |
+| 110 | 490 | 0 | 69.6   | 4.7   | TRUE  | FALSE |  |  | 424.3 | 13.4   | TRUE  | FALSE |
+| 120 | 118 | 2 | 46.1   | 4.9   | TRUE  | FALSE |  |  | 169.3 | 13.4   | TRUE  | FALSE |
+| 130 | 175 | 4 | 40.3   | 4.8   | TRUE  | FALSE |  |  | 160.1 | 13.4   | TRUE  | FALSE |
+| 140 | 452 | 6 | 31.9   | 5.2   | TRUE  | FALSE |  |  | 25.4  | 13.8   | **FALSE** | FALSE |
+| 150 | 6   | 7 | 9.7    | 77.6  | **FALSE** | **TRUE** |  |  | 19.9  | 17.6   | FALSE | FALSE |
+| 160 | 13  | 2 | 10.15  | 197.9 | FALSE | TRUE  |  |  | 19.9  | 1310.4 | FALSE | **TRUE**  |
+
 
 Again, each choice of threshold calculation crosses its threshold at different times.
 
