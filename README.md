@@ -6,9 +6,15 @@ In order to monitor the state of my home's laundry and receive notification when
 
 The goal was to avoid any physical modifications to the high ampere/voltage circuits for these appliances. I also wanted to avoid using wireless switch plugs (e.g. Z-Wave) capable of sending energy usage telemetry, especially on the 240VAC (US) dryer outlet.
 
-Installation requires turning off your home's main power, removing the circuit breaker panel cover, and clipping the CT sensors to each laundry circuit (I am in the US and use the red and black hot wires). Removing your panel is obviously dangerous and if you're not careful your family could find you as a smoking heap on the ground. So be careful.
+Installation requires turning off your home's main power, removing the circuit breaker panel cover, and clipping the CT sensors to each laundry circuit. Removing your panel is obviously dangerous and if you're not careful your family could find you as a smoking heap on the ground. So be careful.
 
 The circuit to detect the power state uses a **SCT-013-030 30A Non-invasive AC Current Sensor Split-Core Current Transformer**, a load bearing resistor, and a capacitor. The XBee3 12-bit ADC pins read the voltage across each resistor.
+
+### Schematic
+![XBee3 laundry schematic](assets/images/xbee3_laundry_schematic.png)
+* R1 and R2: 33 ohms
+* C1 and C2: 10 microfarads
+* J1 and J2 connect to each CT.
 
 ### Custom code ###
 The XBee3 sends the ADC readings to the ZigBee coordinator of the mesh network about every 10 seconds. I use custom coordinator code based on [aioxbee](https://github.com/idatum/aioxbee). The coordinator code publishes both ADC readings in the payload of a single topic sent to an MQTT broker. Each state for the washer and dryer are published as a seperate topic when a state changes between on or off.
@@ -69,12 +75,6 @@ Maybe I should not be so lazy and just use the stairs to check on the laundry :)
 I use [Home Assistant](https://github.com/home-assistant) (HA) to control and display laundry notifications, state, and data. An HA MQTT binary_sensor integrates washer and dryer state. An MQTT sensor shows the current ADC raw readings, which conventiently creates a line chart. HA generally is a convenient integration point and UI for these types of DIY projects, and provides the glue for integrating with other home automation devices.
 
 For notifications, I use HA automation triggered by the binary_sensor state change. The HA app on my phone is especially useful for recieving and enabling/disabling notifications. In the laundry room I have an NFC tag that toggles notifications on and off. Once my laundry is done, I don't need to be notified of other family members' laundry status!
-
-### Schematic
-![XBee3 laundry schematic](assets/images/xbee3_laundry_schematic.png)
-* R1 and R2: 33 ohms
-* C1 and C2: 10 microfarads
-* J1 and J2 connect to each CT.
 
 ### Example of a CT sensor
 ![CT example](assets/images/CT_example.png)
