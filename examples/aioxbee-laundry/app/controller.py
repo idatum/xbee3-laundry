@@ -102,5 +102,5 @@ class Controller(aiozigbee.ZigbeeAsyncSerialBase):
             previous_data = self.address_data[address]
             del self.address_data[address]
             data = previous_data + data
-        Log.debug(f"calling {self.handle_rx_data}")
+        Log.debug(f"calling {self.process_laundry_data}")
         await self.process_laundry_data(data)
