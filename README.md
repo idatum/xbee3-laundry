@@ -34,9 +34,11 @@ For the dryer, you can see the heating element turning on and off as the humidit
 
 Both the washer and dryer have periods where the current readings drop off; hence we need to a window of time that spans those gaps.
 
-![Washer plot](assets/images/washer_plot.png)Washer plot
+![Washer plot](assets/images/washer_plot.png)
+Washer plot
 
-![Dryer plot](assets/images/dryer_plot.png)Dryer plot
+![Dryer plot](assets/images/dryer_plot.png)
+Dryer plot
 
 As mentioned, I use a moving window of ADC values -- these ADC values are already aggregated (5 consecutive ADC samples) by the XBee3 code.
 
