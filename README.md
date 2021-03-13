@@ -2,7 +2,7 @@
 ### Micropython code running on an XBee3 ZigBee RF module to read ADC values from CT sensors on washer and dryer A/C circuits.
 
 ### Circuit ###
-In order to monitor the state of my home's laundry and receive notification when the washer and dryer are done, I use a current transformer (CT) sensor to detect each appliance's power state (i.e. whether CT voltage is detected via ADC pins).
+In order to monitor the state of my home's laundry and receive notification when the washer and dryer are done, I use a current transducer (CT) sensor to detect each appliance's power state (i.e. whether CT voltage is detected via ADC pins).
 
 The goal was to avoid any physical modifications to the high ampere/voltage circuits for these appliances. I also wanted to avoid using wireless switch plugs (e.g. Z-Wave) capable of sending energy usage telemetry, especially on the 240VAC (US) dryer outlet.
 
@@ -27,6 +27,16 @@ I do pre-aggregation of ADC samples on the XBee3 before transmitting. A remotely
 
 ### Data analysis ###
 Once I gathered a weekend's worth of data from my family and myself doing our laundry, I was able to arrive at default aggregation count and threshold value settings.
+
+Here are plots of the washer and dryer data points. For the washer, notice how the last port of the cycle -- the spin cycle -- quick tapers to a slow tumble.
+
+For the dryer, you can see the heating element turning on and off as the humidity sensor begins to detect less moisture.
+
+Both the washer and dryer have periods where the current readings drop off; hence we need to a window of time that spans those gaps.
+
+![Washer plot](assets/images/washer_plot.png)Washer plot
+
+![Dryer plot](assets/images/dryer_plot.png)Dryer plot
 
 As mentioned, I use a moving window of ADC values -- these ADC values are already aggregated (5 consecutive ADC samples) by the XBee3 code.
 
