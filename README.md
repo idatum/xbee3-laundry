@@ -8,7 +8,7 @@ The goal was to avoid any physical modifications to the high ampere/voltage circ
 
 Installation requires turning off your home's main power, removing the circuit breaker panel cover, and clipping the CT sensors to each laundry circuit. Removing your panel is obviously dangerous and if you're not careful your family could find you as a smoking heap on the ground. So be careful.
 
-The circuit to detect the power state uses a **SCT-013-030 30A Non-invasive AC Current Sensor Split-Core Current Transformer**, a load bearing resistor, and a capacitor. The XBee3 12-bit ADC pins read the voltage across each resistor.
+The circuit to detect the power state uses a **SCT-013-030 30A Non-invasive AC Current Sensor Split-Core Current Transformer**, a load bearing resistor, and a capacitor. The XBee3 12-bit ADC pins read the low voltage (alternating current) across each resistor.
 
 ### Schematic
 ![XBee3 laundry schematic](assets/images/xbee3_laundry_schematic.png)
@@ -23,7 +23,7 @@ Check out the [xbee3-laundry aioxbee-laundry example](https://github.com/idatum/
 
 The state of the washer and dryer is based on a moving window of ADC values crossing a threshold. In my case the moving window is the average of the last 20 ADC readings and the threshold "on" state is a value of 20.
 
-I do pre-aggregation of ADC samples on the XBee3 before transmitting. A remotely configurable global variable `Sum_count` defaults to 5. The idea is to 1) collect a reasonable signal before sending, 2) minimize the frequency of ZigBee packets and corresponding MQTT messages.
+I do pre-aggregation of ADC samples on the XBee3 before transmitting. A remotely configurable global variable `Sum_count` defaults to 5. The idea is to 1) collect a reasonable signal from the clipped AC voltage before sending, 2) minimize the frequency of ZigBee packets and corresponding MQTT messages.
 
 ### Data analysis ###
 Once I gathered a weekend's worth of data from my family and myself doing our laundry, I was able to arrive at default aggregation count and threshold value settings.
