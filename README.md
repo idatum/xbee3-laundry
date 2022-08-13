@@ -17,7 +17,7 @@ The circuit to detect the power state uses a **SCT-013-030 30A Non-invasive AC C
 * J1 and J2 connect to each CT.
 
 ### Usage ###
-The XBee3 sends the ADC readings to the ZigBee coordinator of the mesh network about every 10 seconds. I use custom coordinator code based on [xbeesharp](https://github.com/idatum/xbeesharp).
+The XBee3 sends the ADC readings to the ZigBee coordinator of the mesh network about every 10 seconds. The worker app [xbee2mqtt](https://github.com/idatum/xbeesharp/apps/xbee2mqtt) uses custom coordinator code based on [xbeesharp](https://github.com/idatum/xbeesharp) which translates XBee TX message frames to MQTT messages. The example MQTT laundry client [mqtt-laundry](https://github.com/idatum/xbee3-laundry/examples/mqtt-laundry) subscribes and determines the state of the washer and dryer.
 
 The state of the washer and dryer is based on a moving window of ADC values crossing a threshold. In my case the moving window is the average of the last 20 ADC readings and the threshold "on" state is a value of 20.
 
