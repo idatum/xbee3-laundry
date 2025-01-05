@@ -2,7 +2,7 @@
 ### Micropython code running on an XBee3 ZigBee RF module to read ADC values from CT sensors on washer and dryer A/C circuits.
 
 ### Circuit ###
-In order to monitor the state of my home's laundry and receive notification when the washer and dryer are done, I use a current transducer (CT) sensor to detect each appliance's power state (i.e. whether CT voltage is detected via ADC pins).
+In order to monitor the state of my home's laundry and receive notification when the washer and dryer are done, I use a current transformer (CT) sensor to detect each appliance's power state (i.e. whether CT voltage is detected via ADC pins).
 
 The goal was to avoid any physical modifications to the high ampere/voltage circuits for these appliances. I also wanted to avoid using wireless switch plugs (e.g. Z-Wave) capable of sending energy usage telemetry, especially on the 240VAC (US) dryer outlet.
 

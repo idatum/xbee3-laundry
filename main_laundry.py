@@ -8,11 +8,14 @@ import xbee
 # XBee ZigBee
 xb = xbee.XBee()
 # Sum ADC readings n times before transmitting.
-Sum_count = 5
+Sum_count = 2
 # Delay between transmitting summed ADC readings.
-Transmit_sleep_s = 10
+Transmit_sleep_s = 2
 # Delay between consecutive ADC readings.
 Readings_sleep_s = .01
+#
+ADC_pin = 'D1'
+
 
 def wait_association():
     """Wait for association with network."""
@@ -66,10 +69,10 @@ def wait_receive(Transmit_sleep_s):
         time.sleep_ms(delay_ms)
 
 
-def transmit_data(a1, a2):
+def transmit_data(val):
     """Transmit ADC values."""
 
-    msg = 'A1={}&A2={}\r'.format(a1, a2)
+    msg = '{}={}\r'.format(ADC_pin, val)
     xbee.transmit(xbee.ADDR_COORDINATOR, msg.encode())
 
 
@@ -77,23 +80,25 @@ def main():
     """Main laundry processing loop reads and transmits
        ADC values and processes received packets."""
 
-    # Washer
-    adc1 = ADC("D1")
-    # Dryer
-    adc2 = ADC("D2")
+    global ADC_pin
+
+    try:
+        with open('/flash/adc') as f:
+            # Read ADC pin name.
+            ADC_pin = f.read().strip()
+            print("Using ADC pin {}".format(ADC_pin))
+    except OSError:
+        print("Using default ADC pin {}".format(ADC_pin))
+    adc = ADC(ADC_pin)
     while True:
         # Take N readings and sum
-        a1_sum = 0
-        a2_sum = 0
+        adc_sum = 0
         for i in range(Sum_count):
-            a1 = adc1.read()
-            a2 = adc2.read()
-            a1_sum += a1
-            a2_sum += a2
+            adc_sum += adc.read()
             time.sleep(Readings_sleep_s)
-        print("a1=" + str(a1_sum) + " a2=" + str(a2_sum))
+        print("adc=" + str(adc_sum))
         # Transmit readings to coordinator.
-        transmit_data(a1_sum, a2_sum)
+        transmit_data(adc_sum)
         # Delay while polling for received packet.
         packet = wait_receive(Transmit_sleep_s)
         if packet and 'payload' in packet:
@@ -110,3 +115,4 @@ if __name__ == '__main__':
         except Exception as e:
             print(e)
             time.sleep(1)
+
